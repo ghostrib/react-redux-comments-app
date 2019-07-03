@@ -31,6 +31,7 @@ it('empties text area when form is submitted', () => {
     target: { value: 'the newest comment' }
   });
   wrapper.update();
+  expect(wrapper.find('textarea').prop('value')).toEqual('the newest comment');
   wrapper.find('form').simulate('submit');
   wrapper.update();
   expect(wrapper.find('textarea').prop('value')).toEqual('');
