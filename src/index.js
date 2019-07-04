@@ -5,7 +5,7 @@ import App from 'components/App';
 
 render(
   <Root>
-    <App />,
+    <App />
   </Root>,
   document.querySelector('#root')
 );
