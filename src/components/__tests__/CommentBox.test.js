@@ -1,12 +1,17 @@
 import React from 'react';
 import { mount } from 'enzyme';
 
+import Root from 'Root';
 import CommentBox from 'components/CommentBox';
 
 let wrapper;
 
 beforeEach(() => {
-  wrapper = mount(<CommentBox />);
+  wrapper = mount(
+    <Root>
+      <CommentBox />
+    </Root>
+  );
 });
 
 afterEach(() => {
@@ -18,21 +23,22 @@ it('has a text area and a button', () => {
   expect(wrapper.find('button').length).toEqual(1);
 });
 
-it('has a text area that users can type in', () => {
-  wrapper.find('textarea').simulate('change', {
-    target: { value: 'new comment' }
+describe('textarea', () => {
+  beforeEach(() => {
+    wrapper.find('textarea').simulate('change', {
+      target: { value: 'new comment' }
+    });
+    wrapper.update();
   });
-  wrapper.update();
-  expect(wrapper.find('textarea').prop('value')).toEqual('new comment');
-});
 
-it('empties text area when form is submitted', () => {
-  wrapper.find('textarea').simulate('change', {
-    target: { value: 'the newest comment' }
+  it('has a text area that users can type in', () => {
+    expect(wrapper.find('textarea').prop('value')).toEqual('new comment');
   });
-  wrapper.update();
-  expect(wrapper.find('textarea').prop('value')).toEqual('the newest comment');
-  wrapper.find('form').simulate('submit');
-  wrapper.update();
-  expect(wrapper.find('textarea').prop('value')).toEqual('');
+
+  it('empties text area when form is submitted', () => {
+    expect(wrapper.find('textarea').prop('value')).toEqual('new comment');
+    wrapper.find('form').simulate('submit');
+    wrapper.update();
+    expect(wrapper.find('textarea').prop('value')).toEqual('');
+  });
 });
